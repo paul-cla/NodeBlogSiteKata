@@ -2,14 +2,14 @@ var Promise = require('bluebird');
 var fs = Promise.promisifyAll(require('fs'));
 var path = require('path');
 var getPost = require('../lib/getPost');
-var postsDirectory = path.join(__dirname, '../posts');
+var config = require(path.join(__dirname, '../config'));
 
 module.exports = function (req, res, next) {
-    fs.readdirAsync(path.join(__dirname, '../posts'))
+    fs.readdirAsync(config.postDirectory)
         .then(function (files) {
             return files
                 .map(function (file) {
-                    return path.join(postsDirectory, file);
+                    return path.join(config.postDirectory, file);
                 })
                 .map(getPost);
         })
